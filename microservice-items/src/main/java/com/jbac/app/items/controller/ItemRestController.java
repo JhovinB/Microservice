@@ -18,7 +18,7 @@ public class ItemRestController {
 	
 	
 	@Autowired
-	@Qualifier("serviceRestTemplate")
+	@Qualifier("serviceFeign")
 	private ItemService itemService;
 	
 	@GetMapping("/list")

@@ -22,7 +22,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public List<Item> findAll() {
 		List<Product> products = Arrays.asList(clientRest
-				.getForObject("http://localhost:8001/api/v1/products/list",Product[].class));
+				.getForObject("http://service-products/api/v1/products/list",Product[].class));
 		return products.stream().map(p->new Item(p,1)).collect(Collectors.toList());
 	}
 
@@ -32,7 +32,7 @@ public class ItemServiceImpl implements ItemService {
 		Map<String,String> pathVariable= new HashMap<>();
 		pathVariable.put("id", id.toString());
 		Product product = clientRest
-				.getForObject("http://localhost:8001/api/v1/products/{id}",Product.class,pathVariable);
+				.getForObject("http://service-products/api/v1/products/{id}",Product.class,pathVariable);
 		return new Item(product,quantity);
 	}
 

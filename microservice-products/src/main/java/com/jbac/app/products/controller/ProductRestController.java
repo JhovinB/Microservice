@@ -22,8 +22,8 @@ public class ProductRestController {
 	private Environment env;
 	
 	//Para utilizar con RestTemplate
-//	@Value("${server.port}")
-//	private Integer port;
+	@Value("${server.port}")
+	private Integer port;
 	
 	
 	@Autowired
@@ -33,16 +33,16 @@ public class ProductRestController {
 	public List<Product> getListProducts(){
 		return productService.findAll()
 				.stream().map(product->{
-					product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
-					//product.setPort(port);
+					//product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
+					product.setPort(port);
 					return product;
 				}).collect(Collectors.toList());
 	}
 	@GetMapping("/{id}")
 	public Product getProduct(@PathVariable("id") Long id) {
 		Product product = productService.findById(id);
-		product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
-		//product.setPort(port);
+		//product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
+		product.setPort(port);
 		
 //		//Lanzar una error
 //		boolean ok = false;

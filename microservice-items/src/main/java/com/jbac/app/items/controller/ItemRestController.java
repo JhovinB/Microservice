@@ -15,7 +15,7 @@ import com.jbac.app.items.service.ItemService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
-@RequestMapping("/api/v1/items")
+//@RequestMapping("/api/v1/items")
 public class ItemRestController {
 	
 	
@@ -23,7 +23,7 @@ public class ItemRestController {
 	@Qualifier("serviceFeign")
 	private ItemService itemService;
 	
-	@GetMapping("/list")
+	@GetMapping
 	public List<Item> getListItems(){
 		return itemService.findAll();
 	}

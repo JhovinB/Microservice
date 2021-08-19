@@ -11,9 +11,9 @@ import com.jbac.app.items.models.Product;
 @FeignClient(name="service-products")
 public interface ProductClientRest {
 	
-	@GetMapping("/api/v1/products/list")
+	@GetMapping
 	public 	List<Product> listProduct();
 	
-	@GetMapping("/api/v1/products/{id}")
+	@GetMapping("/{id}")
 	public Product getProduct(@PathVariable("id") Long id);
 }

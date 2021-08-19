@@ -15,7 +15,7 @@ import com.jbac.app.products.model.Product;
 import com.jbac.app.products.service.IProductService;
 
 @RestController
-@RequestMapping("/api/v1/products")
+//@RequestMapping("/api/v1/products")
 public class ProductRestController {
 	
 	@Autowired
@@ -29,20 +29,20 @@ public class ProductRestController {
 	@Autowired
 	IProductService productService;
 	
-	@GetMapping("/list")
+	@GetMapping
 	public List<Product> getListProducts(){
 		return productService.findAll()
 				.stream().map(product->{
-					//product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
-					product.setPort(port);
+					product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
+					//product.setPort(port);
 					return product;
 				}).collect(Collectors.toList());
 	}
 	@GetMapping("/{id}")
 	public Product getProduct(@PathVariable("id") Long id) {
 		Product product = productService.findById(id);
-		//product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
-		product.setPort(port);
+		product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
+		//product.setPort(port);
 		
 //		//Lanzar una error
 //		boolean ok = false;

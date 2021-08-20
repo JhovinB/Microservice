@@ -8,6 +8,7 @@ spring:
           - Path=/api/v1/products/**
         filters:
           - StripPrefix=3
+          - ExampleCookie=Hola,usuario,JhovinBonifacio
       - id: service-items
         uri: lb://service-items
         predicates:

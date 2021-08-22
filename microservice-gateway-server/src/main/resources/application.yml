@@ -15,3 +15,6 @@ spring:
           - Path=/api/v1/items/**
         filters:
           - StripPrefix=3
+          - AddRequestHeader=token-request, 123456
+          - AddResponseHeader=token-response, 12345678
+          - AddRequestParameter=name, jhovin

@@ -42,7 +42,7 @@ public class ItemRestController {
 	public Item getItem(@PathVariable("id") Long id, @PathVariable("quantity") Integer quantity) {
 		return cbFactory.create("items")
 				.run(()->itemService.findById(id, quantity)
-						,e->alternativeMethod(id,quantity,e));
+						/*,e->alternativeMethod(id,quantity,e)*/);
 		//return itemService.findById(id, quantity);
 	}
 	

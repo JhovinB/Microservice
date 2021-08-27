@@ -1,6 +1,7 @@
 package com.jbac.app.products.controller;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,16 @@ public class ProductRestController {
 				}).collect(Collectors.toList());
 	}
 	@GetMapping("/{id}")
-	public Product getProduct(@PathVariable("id") Long id) {
+	public Product getProduct(@PathVariable("id") Long id) throws InterruptedException {
+		
+		if (id.equals(10L)) {
+			throw new IllegalStateException("Producto no encontrado");
+		}
+		if(id.equals(7L)) {
+			//Indica la unidad de tiempo de 5s.
+			TimeUnit.SECONDS.sleep(5L);
+		}
+		
 		Product product = productService.findById(id);
 		product.setPort(Integer.parseInt(env.getProperty("local.server.port")));
 		//product.setPort(port);

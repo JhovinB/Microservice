@@ -30,8 +30,11 @@ public class Appconfig {
 						.slidingWindowSize(10)//umbral de fallos
 						.waitDurationInOpenState(Duration.ofSeconds(10L))
 						.permittedNumberOfCallsInHalfOpenState(5)
+						.slowCallRateThreshold(50)//Llamada lenta
+						.slowCallDurationThreshold(Duration.ofSeconds(2L))
 						.build())
-						.timeLimiterConfig(TimeLimiterConfig.ofDefaults())//timeout
+						.timeLimiterConfig(TimeLimiterConfig
+								.custom().timeoutDuration(Duration.ofSeconds(3L)).build())//Timeout
 						.build();
 		});
 	}

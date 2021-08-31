@@ -1,6 +1,7 @@
 package com.jbac.app.items.controller;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import com.jbac.app.items.models.Product;
 import com.jbac.app.items.service.ItemService;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 
 @RestController
 //@RequestMapping("/api/v1/items")
@@ -47,11 +49,18 @@ public class ItemRestController {
 						,e->alternativeMethod(id,quantity,e));
 		//return itemService.findById(id, quantity);
 	}
-	//CircuitBreaker con anotaciones
+	//CircuitBreaker con anotacion
 	@CircuitBreaker(name="items",fallbackMethod = "alternativeMethod")
 	@GetMapping("/{id}/ver/quantity/{quantity}")
 	public Item getItem2(@PathVariable("id") Long id, @PathVariable("quantity") Integer quantity) {
 		return itemService.findById(id, quantity);
+	}
+	//Timeout  con anotacion
+	@TimeLimiter(name="items",fallbackMethod = "alternativeMethod2")
+	@GetMapping("/{id}/ver1/quantity/{quantity}")
+	public CompletableFuture<Item> getItem3(@PathVariable("id") Long id,
+			@PathVariable("quantity") Integer quantity) {
+		return CompletableFuture.supplyAsync(()->itemService.findById(id, quantity));
 	}
 	
 	
@@ -67,5 +76,19 @@ public class ItemRestController {
 		product.setPrice(1200.50);
 		item.setProduct(product);
 		return item;
+	}
+	
+	public CompletableFuture<Item> alternativeMethod2(Long id,Integer quantity,Throwable e) {
+		
+		logger.info(e.getMessage());
+		
+		Item item =new Item();
+		Product product = new Product();
+		item.setQuantity(quantity);
+		product.setId(id);
+		product.setName("smartwatch");
+		product.setPrice(1200.50);
+		item.setProduct(product);
+		return CompletableFuture.supplyAsync(()->item);
 	}
 }

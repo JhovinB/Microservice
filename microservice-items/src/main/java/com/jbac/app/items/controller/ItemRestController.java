@@ -17,6 +17,8 @@ import com.jbac.app.items.models.Item;
 import com.jbac.app.items.models.Product;
 import com.jbac.app.items.service.ItemService;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @RestController
 //@RequestMapping("/api/v1/items")
 public class ItemRestController {
@@ -44,6 +46,12 @@ public class ItemRestController {
 				.run(()->itemService.findById(id, quantity)
 						,e->alternativeMethod(id,quantity,e));
 		//return itemService.findById(id, quantity);
+	}
+	//CircuitBreaker con anotaciones
+	@CircuitBreaker(name="items",fallbackMethod = "alternativeMethod")
+	@GetMapping("/{id}/ver/quantity/{quantity}")
+	public Item getItem2(@PathVariable("id") Long id, @PathVariable("quantity") Integer quantity) {
+		return itemService.findById(id, quantity);
 	}
 	
 	

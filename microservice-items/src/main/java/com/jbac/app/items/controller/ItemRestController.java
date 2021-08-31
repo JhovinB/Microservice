@@ -56,7 +56,8 @@ public class ItemRestController {
 		return itemService.findById(id, quantity);
 	}
 	//Timeout  con anotacion
-	@TimeLimiter(name="items",fallbackMethod = "alternativeMethod2")
+	@CircuitBreaker(name="items",fallbackMethod = "alternativeMethod2")
+	@TimeLimiter(name="items")
 	@GetMapping("/{id}/ver1/quantity/{quantity}")
 	public CompletableFuture<Item> getItem3(@PathVariable("id") Long id,
 			@PathVariable("quantity") Integer quantity) {
@@ -70,6 +71,8 @@ public class ItemRestController {
 		
 		Item item =new Item();
 		Product product = new Product();
+		
+		
 		item.setQuantity(quantity);
 		product.setId(id);
 		product.setName("smartwatch");

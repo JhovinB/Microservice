@@ -7,9 +7,16 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.jbac.app.products.model.Product;
@@ -70,5 +77,30 @@ public class ProductRestController {
 //		}
 //		
 		return product;
+	}
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public Product createProduct(@RequestBody Product product) {
+		return productService.save(product);
+	}
+	
+	@PutMapping("/edit/{id}")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Product updateProduct(@RequestBody Product product,
+			@PathVariable Long id) {
+		Product pro = productService.findById(id);
+		
+		pro.setName(product.getName());
+		pro.setPrice(product.getPrice());
+		
+		return productService.save(pro);
+		
+	}
+	
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
+		productService.deleteById(id);
+		return ResponseEntity.ok("Se eliminó correctamente");
 	}
 }

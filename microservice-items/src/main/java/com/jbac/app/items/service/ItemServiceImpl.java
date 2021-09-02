@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,20 +41,31 @@ public class ItemServiceImpl implements ItemService {
 
 	@Override
 	public Product save(Product product) {
-		// TODO Auto-generated method stub
-		return null;
+		HttpEntity<Product> body = new HttpEntity<>(product);
+		ResponseEntity<Product> response= clientRest
+				.exchange("http://service-products/api/v1/products",
+				HttpMethod.POST,body,Product.class);
+		Product productResponse = response.getBody();
+		return productResponse;
 	}
 
 	@Override
 	public Product update(Product product, Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String,String> pathVariable= new HashMap<>();
+		pathVariable.put("id", id.toString());
+		HttpEntity<Product> body = new HttpEntity<>(product);
+		ResponseEntity<Product> response= clientRest
+				.exchange("http://service-products/api/v1/products/edit/{id}",
+				HttpMethod.PUT,body,Product.class,pathVariable);
+		
+		return response.getBody();
 	}
 
 	@Override
 	public void delete(Long id) {
-		// TODO Auto-generated method stub
-		
+		Map<String,String> pathVariable= new HashMap<>();
+		pathVariable.put("id", id.toString());
+		clientRest.delete("\"http://service-products/api/v1/products/{id}",pathVariable);
 	}
 
 }

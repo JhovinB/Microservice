@@ -25,7 +25,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public List<Item> findAll() {
 		List<Product> products = Arrays.asList(clientRest
-				.getForObject("http://service-products/api/v1/products/list",Product[].class));
+				.getForObject("http://service-products/api/v1/products/",Product[].class));
 		return products.stream().map(p->new Item(p,1)).collect(Collectors.toList());
 	}
 
@@ -43,7 +43,7 @@ public class ItemServiceImpl implements ItemService {
 	public Product save(Product product) {
 		HttpEntity<Product> body = new HttpEntity<>(product);
 		ResponseEntity<Product> response= clientRest
-				.exchange("http://service-products/api/v1/products",
+				.exchange("http://service-products/api/v1/products/",
 				HttpMethod.POST,body,Product.class);
 		Product productResponse = response.getBody();
 		return productResponse;
@@ -65,7 +65,7 @@ public class ItemServiceImpl implements ItemService {
 	public void delete(Long id) {
 		Map<String,String> pathVariable= new HashMap<>();
 		pathVariable.put("id", id.toString());
-		clientRest.delete("\"http://service-products/api/v1/products/{id}",pathVariable);
+		clientRest.delete("http://service-products/api/v1/products/{id}",pathVariable);
 	}
 
 }

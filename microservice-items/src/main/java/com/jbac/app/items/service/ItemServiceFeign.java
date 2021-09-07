@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
+//import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.jbac.app.items.customers.ProductClientRest;
 import com.jbac.app.items.models.Item;
-import com.jbac.app.items.models.Product;
+//import com.jbac.app.items.models.Product;
+import com.jbac.app.comms.model.Product;
 
 @Service("serviceFeign")
 //@Primary

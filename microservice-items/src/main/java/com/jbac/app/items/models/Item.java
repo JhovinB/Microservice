@@ -1,5 +1,7 @@
 package com.jbac.app.items.models;
 
+import com.jbac.app.comms.model.Product; 
+
 public class Item {
 	
 	private Product product;

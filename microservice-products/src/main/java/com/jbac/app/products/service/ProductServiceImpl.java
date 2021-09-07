@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jbac.app.products.model.Product;
+//import com.jbac.app.products.model.Product;
+import com.jbac.app.comms.model.Product;
 import com.jbac.app.products.repository.IProductoRepository;
 
 @Service
